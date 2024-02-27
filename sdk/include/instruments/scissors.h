@@ -1,5 +1,5 @@
-#ifndef INSTRUMENTS_FORCEPS_H
-#define INSTRUMENTS_FORCEPS_H
+#ifndef INSTRUMENTS_SCISSORS_H
+#define INSTRUMENTS_SCISSORS_H
 
 #include <vector>
 #include <cstdint>
@@ -24,7 +24,6 @@ public:
      * 
      * @return true if initialization is successful, false otherwise.
      */
-    [[nodiscard]]
     bool initialize();
 
     /**
@@ -53,4 +52,4 @@ private:
     ScissorsImpl* impl_;
 };
 
-#endif
+#endif // INSTRUMENTS_SCISSORS_H
