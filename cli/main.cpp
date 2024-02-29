@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <thread>
 #include <chrono>
 #include "instruments/scissors.h"
@@ -19,7 +20,7 @@ int main()
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
 
-    // 整体旋转(负方向)
+    // 整体旋转
     for (int i = 0; i < 80; ++i) {
         s.control({0, -100, 0, 0});
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
@@ -30,8 +31,8 @@ int main()
         s.control({0, 0, 100, 0});
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
-    
-    // 摆动(负方向)
+
+    // 摆动
     for (int i = 0; i < 60; ++i) {
         s.control({0, 0, -100, 0});
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
@@ -50,6 +51,8 @@ int main()
     }
 
     s.uninitialize();
+
+    std::cout << "end" << std::endl;
 
     return 0;
 }

@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/hlt/Develop/Code/instrument-example/build/cli",
+  "command": "/usr/bin/g++   -I/home/hlt/Develop/Code/instrument-example/sdk/include  -g   -std=c++17 -o CMakeFiles/scissors_example_cli.dir/main.cpp.o -c /home/hlt/Develop/Code/instrument-example/cli/main.cpp",
+  "file": "/home/hlt/Develop/Code/instrument-example/cli/main.cpp"
+},
+{
+  "directory": "/home/hlt/Develop/Code/instrument-example/build/gui",
+  "command": "/usr/bin/g++  -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/hlt/Develop/Code/instrument-example/build/gui/scissors_example_gui_autogen/include -I/home/hlt/Develop/Code/instrument-example/sdk/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets  -g   -fPIC -std=gnu++17 -o CMakeFiles/scissors_example_gui.dir/scissors_example_gui_autogen/mocs_compilation.cpp.o -c /home/hlt/Develop/Code/instrument-example/build/gui/scissors_example_gui_autogen/mocs_compilation.cpp",
+  "file": "/home/hlt/Develop/Code/instrument-example/build/gui/scissors_example_gui_autogen/mocs_compilation.cpp"
+},
+{
+  "directory": "/home/hlt/Develop/Code/instrument-example/build/gui",
+  "command": "/usr/bin/g++  -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/hlt/Develop/Code/instrument-example/build/gui/scissors_example_gui_autogen/include -I/home/hlt/Develop/Code/instrument-example/sdk/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets  -g   -fPIC -std=gnu++17 -o CMakeFiles/scissors_example_gui.dir/main.cpp.o -c /home/hlt/Develop/Code/instrument-example/gui/main.cpp",
+  "file": "/home/hlt/Develop/Code/instrument-example/gui/main.cpp"
+},
+{
+  "directory": "/home/hlt/Develop/Code/instrument-example/build/gui",
+  "command": "/usr/bin/g++  -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/hlt/Develop/Code/instrument-example/build/gui/scissors_example_gui_autogen/include -I/home/hlt/Develop/Code/instrument-example/sdk/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets  -g   -fPIC -std=gnu++17 -o CMakeFiles/scissors_example_gui.dir/widget.cpp.o -c /home/hlt/Develop/Code/instrument-example/gui/widget.cpp",
+  "file": "/home/hlt/Develop/Code/instrument-example/gui/widget.cpp"
+}
+]
