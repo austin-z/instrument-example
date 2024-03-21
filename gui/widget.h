@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QSpinBox>
-#include "instruments/scissors.h"
+#include <QComboBox>
+#include <memory>
+#include "instruments/abstract_instrument.h"
 
 class Widget : public QWidget {
   Q_OBJECT
@@ -14,6 +16,7 @@ public:
   ~Widget();
 
 private slots:
+  void startInstrument();
 
 private:
   QPushButton *btn_clockwise_shaft_;
@@ -23,11 +26,14 @@ private:
   QPushButton *btn_open_gripper_;
   QPushButton *btn_close_gripper_;
 
+  QPushButton *btn_start_instrument_;
+
+  QComboBox *box_instrument_;
   QSpinBox *box_shaft_speed_;
   QSpinBox *box_end_speed_;
   QSpinBox *box_gripper_speed_;
 
-  Scissors *scissors_;
+  std::unique_ptr<AbstractInstrument> instrument_;
 };
 
 #endif

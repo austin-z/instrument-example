@@ -1,17 +1,19 @@
-#ifndef INSTRUMENTS_SCISSORS_H
-#define INSTRUMENTS_SCISSORS_H
+#ifndef ABSTRACT_INSTRUMENTS_H
+#define ABSTRACT_INSTRUMENTS_H
 
 #include <vector>
 #include <cstdint>
-#include <memory>
 
-#include "abstract_instrument.h"
-
-class Scissors : public AbstractInstrument
+class AbstractInstrument
 {
 public:
-    explicit Scissors(const char* serial_port_name);
-    ~Scissors() override;
+    AbstractInstrument() = default;
+    virtual ~AbstractInstrument() = default;
+
+    AbstractInstrument(const AbstractInstrument &) = delete;
+    AbstractInstrument(AbstractInstrument &&) = delete;
+    void operator = (const AbstractInstrument &) = delete;
+    void operator = (AbstractInstrument &&) = delete;
 
     /**
      * @brief Initializes the instrument.
@@ -20,7 +22,7 @@ public:
      * 
      * @return true if initialization is successful, false otherwise.
      */
-    bool initialize() override;
+    virtual bool initialize() = 0;
 
     /**
      * @brief Uninitializes the instrument.
@@ -30,7 +32,7 @@ public:
      * 
      * @return true if uninitialization is successful, false otherwise.
      */
-    bool uninitialize() override;
+    virtual bool uninitialize() = 0;
 
     /**
      * @brief Controls the motion of the instrument.
@@ -42,10 +44,7 @@ public:
      *
      * @param velocities A vector containing the motion speeds for each DOF.
      */
-    void control(const std::vector<int16_t> &velocities) override;
-
-private:
-    const std::unique_ptr<class ScissorsImpl> impl_;
+    virtual void control(const std::vector<int16_t> &velocities) = 0;
 };
 
-#endif // INSTRUMENTS_SCISSORS_H
+#endif // ABSTRACT_INSTRUMENTS_H

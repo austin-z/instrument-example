@@ -1,5 +1,5 @@
-#ifndef INSTRUMENTS_SCISSORS_H
-#define INSTRUMENTS_SCISSORS_H
+#ifndef INSTRUMENTS_FORCEPS_H
+#define INSTRUMENTS_FORCEPS_H
 
 #include <vector>
 #include <cstdint>
@@ -7,11 +7,11 @@
 
 #include "abstract_instrument.h"
 
-class Scissors : public AbstractInstrument
+class Forceps : public AbstractInstrument
 {
 public:
-    explicit Scissors(const char* serial_port_name);
-    ~Scissors() override;
+    explicit Forceps(const char* serial_port_name);
+    ~Forceps() override;
 
     /**
      * @brief Initializes the instrument.
@@ -45,7 +45,7 @@ public:
     void control(const std::vector<int16_t> &velocities) override;
 
 private:
-    const std::unique_ptr<class ScissorsImpl> impl_;
+    const std::unique_ptr<class ForcepsImpl> impl_;
 };
 
-#endif // INSTRUMENTS_SCISSORS_H
+#endif // INSTRUMENTS_FORCEPS_H

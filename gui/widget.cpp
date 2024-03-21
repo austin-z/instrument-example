@@ -1,6 +1,9 @@
 #include "widget.h"
 #include <QGridLayout>
 #include <QIntValidator>
+#include <QLabel>
+#include "instruments/forceps.h"
+#include "instruments/scissors.h"
 
 namespace {
 
@@ -26,18 +29,19 @@ Widget::Widget(QWidget *parent)
       btn_right_end_(new QPushButton(QStringLiteral("末端摆动"), this)),
       btn_open_gripper_(new QPushButton(QStringLiteral("张开"), this)),
       btn_close_gripper_(new QPushButton(QStringLiteral("闭合"), this)),
+      btn_start_instrument_(new QPushButton(QStringLiteral("启动"), this)),
+      box_instrument_(new QComboBox(this)),
       box_shaft_speed_(new QSpinBox(this)),
       box_end_speed_(new QSpinBox(this)),
-      box_gripper_speed_(new QSpinBox(this)),
-      scissors_(new Scissors("/dev/ttyUSB0")) {
+      box_gripper_speed_(new QSpinBox(this)) {
 
     auto layout = new QGridLayout(this);
-    layout->addWidget(btn_clockwise_shaft_, 0, 0);
-    layout->addWidget(btn_counterclockwise_shaft_, 0, 1);
-    layout->addWidget(btn_left_end_, 1, 0);
-    layout->addWidget(btn_right_end_, 1, 1);
-    layout->addWidget(btn_open_gripper_, 2, 0);
-    layout->addWidget(btn_close_gripper_, 2, 1);
+    layout->addWidget(btn_clockwise_shaft_, 1, 0);
+    layout->addWidget(btn_counterclockwise_shaft_, 1, 1);
+    layout->addWidget(btn_left_end_, 2, 0);
+    layout->addWidget(btn_right_end_, 2, 1);
+    layout->addWidget(btn_open_gripper_, 3, 0);
+    layout->addWidget(btn_close_gripper_, 3, 1);
 
     setAutoRepeat(btn_clockwise_shaft_);
     setAutoRepeat(btn_counterclockwise_shaft_);
@@ -46,51 +50,75 @@ Widget::Widget(QWidget *parent)
     setAutoRepeat(btn_open_gripper_);
     setAutoRepeat(btn_close_gripper_);
 
-    layout->addWidget(box_shaft_speed_, 0, 2);
-    layout->addWidget(box_end_speed_, 1, 2);
-    layout->addWidget(box_gripper_speed_, 2, 2);
+    layout->addWidget(new QLabel(QStringLiteral("器械编码：")), 0, 0);
+    layout->addWidget(box_instrument_, 0, 1);
+    layout->addWidget(btn_start_instrument_, 0, 2);
+    layout->addWidget(box_shaft_speed_, 1, 2);
+    layout->addWidget(box_end_speed_, 2, 2);
+    layout->addWidget(box_gripper_speed_, 3, 2);
 
-    initializeSpinbox(box_shaft_speed_, 20, 300, 100);
-    initializeSpinbox(box_end_speed_, 20, 200, 50);
-    initializeSpinbox(box_gripper_speed_, 20, 300, 50);
+
+    box_instrument_->addItems({ "scissors", "forceps" });
+
+    initializeSpinbox(box_shaft_speed_, 0, 8000, 100);
+    initializeSpinbox(box_end_speed_, 0, 8000, 50);
+    initializeSpinbox(box_gripper_speed_, 0, 8000, 50);
 
     resize(300, 200);
 
-    scissors_->initialize();
+    connect(btn_start_instrument_, &QPushButton::clicked, this, &Widget::startInstrument);
+}
+
+Widget::~Widget() {
+    if (instrument_) {
+        instrument_->uninitialize();
+    }
+}
+
+void Widget::startInstrument()
+{
+    if (instrument_)
+        return;
+
+    if (box_instrument_->currentIndex() == 0)
+        instrument_ = std::make_unique<Scissors>("/dev/ttyUSB0");
+    else
+        instrument_ = std::make_unique<Forceps>("/dev/ttyUSB0");
+
+    if (!instrument_->initialize()) {
+        //instrument_.reset();
+        //return;
+    }
 
     connect(btn_clockwise_shaft_, &QPushButton::clicked, this, [this]() {
-          scissors_->control({0, (int16_t)box_shaft_speed_->value(), 0, 0});
+          instrument_->control({0, (int16_t)box_shaft_speed_->value(), 0, 0});
       }
     );
 
     connect(btn_counterclockwise_shaft_, &QPushButton::clicked, this, [this]() {
-          scissors_->control({0, (int16_t)-box_shaft_speed_->value(), 0, 0});
+          instrument_->control({0, (int16_t)-box_shaft_speed_->value(), 0, 0});
       }
     );
 
     connect(btn_left_end_, &QPushButton::clicked, this, [this]() {
-          scissors_->control({0, 0, (int16_t)box_end_speed_->value(), 0});
+          instrument_->control({0, 0, (int16_t)box_end_speed_->value(), 0});
       }
     );
 
     connect(btn_right_end_, &QPushButton::clicked, this, [this]() {
-          scissors_->control({0, 0, (int16_t)-box_end_speed_->value(), 0});
+          instrument_->control({0, 0, (int16_t)-box_end_speed_->value(), 0});
       }
     );
 
     connect(btn_open_gripper_, &QPushButton::clicked, this, [this]() {
           int16_t v = box_gripper_speed_->value();
-          scissors_->control({v, 0, 0, v});
+          instrument_->control({v, 0, 0, v});
       }
     );
 
     connect(btn_close_gripper_, &QPushButton::clicked, this, [this]() {
           int16_t v = -box_gripper_speed_->value();
-          scissors_->control({v, 0, 0, v});
+          instrument_->control({v, 0, 0, v});
       }
     );
-}
-
-Widget::~Widget() {
-    scissors_->uninitialize();
 }
